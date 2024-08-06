@@ -1,7 +1,16 @@
 import logo from './logo.svg';
 import './App.css';
+import "@aws-amplify/ui-react/styles.css";
+import {
+  withAuthenticator,
+  Button,
+  Heading,
+  Image,
+  View,
+  Card,
+} from "@aws-amplify/ui-react";
 
-function App() {
+function App({ signOut }) {
   return (
     <div className="App">
       <header className="App-header">
@@ -9,7 +18,7 @@ function App() {
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
-        <h1>Hello!! from V2</h1>
+        <h1>Authenticated!! from V3</h1>
         <a
           className="App-link"
           href="https://reactjs.org"
@@ -18,9 +27,10 @@ function App() {
         >
           Learn React
         </a>
+        <Button onClick={signOut}>Sign Out</Button>
       </header>
     </div>
   );
 }
 
-export default App;
+export default withAuthenticator(App);

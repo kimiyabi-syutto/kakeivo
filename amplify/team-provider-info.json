@@ -10,6 +10,11 @@
       "StackName": "amplify-kakeivo-staging-16747",
       "StackId": "arn:aws:cloudformation:ap-northeast-3:381492309586:stack/amplify-kakeivo-staging-16747/2e562830-5406-11ef-be67-06b995f47313",
       "AmplifyAppId": "dif0xsjstno65"
+    },
+    "categories": {
+      "auth": {
+        "kakeivoeebd27ca": {}
+      }
     }
   }
 }
