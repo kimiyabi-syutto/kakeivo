@@ -10,9 +10,14 @@ import {
   View,
   Card,
 } from "@aws-amplify/ui-react";
+import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
+
+import { Home } from "./components/home";
+import { Camera } from "./components/camera";
 
 function App({ signOut }) {
   return (
+    <BrowserRouter>
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
@@ -29,9 +34,23 @@ function App({ signOut }) {
           Learn React
         </a>
         <Button onClick={signOut}>Sign Out</Button>
+        <br />
+        <Link to="/">Home</Link>
+        <br />
+        <Link to="/camera">カメラ起動</Link>
+        <br />
+        <br />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/camera" element={<Camera />} />
+        </Routes>
+
       </header>
     </div>
+    </BrowserRouter>
   );
 }
 
-export default withAuthenticator(App);
+export default App;
+
+//export default withAuthenticator(App);
