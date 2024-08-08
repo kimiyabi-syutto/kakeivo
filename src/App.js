@@ -2,18 +2,17 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import "@aws-amplify/ui-react/styles.css";
-import {
-  withAuthenticator,
-  Button,
-  Heading,
-  Image,
-  View,
-  Card,
-} from "@aws-amplify/ui-react";
 import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 
+import BottomNavigation from "@mui/material/BottomNavigation";
+import BottomNavigationAction from "@mui/material/BottomNavigationAction";
+import { CameraAlt, CalendarMonth, Equalizer, Settings } from '@mui/icons-material';
+
 import { Home } from "./components/home";
+import { CalendarPage } from "./components/calendar";
+import { Graph } from "./components/graph";
 import { Camera } from "./components/camera";
+import { Setting } from "./components/setting";
 
 function App({ signOut }) {
   return (
@@ -21,30 +20,19 @@ function App({ signOut }) {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <h1>Authenticated!! from V3</h1>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <Button onClick={signOut}>Sign Out</Button>
-        <br />
-        <Link to="/">Home</Link>
-        <br />
-        <Link to="/camera">カメラ起動</Link>
-        <br />
-        <br />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/camera" element={<Camera />} />
+          <Route path="/calendar" element={<CalendarPage />} />
+          <Route path="/graph" element={<Graph />} />
+          <Route path="/setting" element={<Setting />} />
         </Routes>
-
+        <BottomNavigation showLabels>
+          <BottomNavigationAction component={Link} to="/camera" icon={<CameraAlt />} />
+          <BottomNavigationAction component={Link} to="/calendar" icon={<CalendarMonth />} />
+          <BottomNavigationAction component={Link} to="/graph" icon={<Equalizer />} />
+          <BottomNavigationAction component={Link} to="/setting" icon={<Settings />} />
+        </BottomNavigation>
       </header>
     </div>
     </BrowserRouter>
