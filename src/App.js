@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import "@aws-amplify/ui-react/styles.css";
 import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
+import { withAuthenticator } from "@aws-amplify/ui-react";
 
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
