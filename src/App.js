@@ -5,8 +5,9 @@ import "@aws-amplify/ui-react/styles.css";
 import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 import { withAuthenticator } from "@aws-amplify/ui-react";
 
-import BottomNavigation from "@mui/material/BottomNavigation";
-import BottomNavigationAction from "@mui/material/BottomNavigationAction";
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
 import { CameraAlt, CalendarMonth, Equalizer, Settings } from '@mui/icons-material';
 
 import { Home } from "./components/home";
@@ -14,6 +15,7 @@ import { CalendarPage } from "./components/calendar";
 import { Graph } from "./components/graph";
 import { Camera } from "./components/camera";
 import { Setting } from "./components/setting";
+
 
 function App({ signOut }) {
   return (
@@ -26,16 +28,19 @@ function App({ signOut }) {
           <Route path="/camera" element={<Camera />} />
           <Route path="/calendar" element={<CalendarPage />} />
           <Route path="/graph" element={<Graph />} />
-          <Route path="/setting" element={<Setting />} />
+          <Route path="/setting" element={<Setting signOut />} />
         </Routes>
-        <BottomNavigation showLabels>
-          <BottomNavigationAction component={Link} to="/camera" icon={<CameraAlt />} />
-          <BottomNavigationAction component={Link} to="/calendar" icon={<CalendarMonth />} />
-          <BottomNavigationAction component={Link} to="/graph" icon={<Equalizer />} />
-          <BottomNavigationAction component={Link} to="/setting" icon={<Settings />} />
-        </BottomNavigation>
+        <br/><br/>
       </header>
     </div>
+      <AppBar position="fixed" color="primary" sx={{ top: 'auto', bottom: 0 }}>
+        <Toolbar sx={{ margin:'auto' }}>
+        <IconButton color="inherit" component={Link} to="/camera"> <CameraAlt /></IconButton>
+        <IconButton color="inherit" component={Link} to="/calendar"> <CalendarMonth /></IconButton>
+        <IconButton color="inherit" component={Link} to="/graph"> <Equalizer /></IconButton>
+        <IconButton color="inherit" component={Link} to="/setting"> <Settings /></IconButton>
+        </Toolbar>
+      </AppBar>
     </BrowserRouter>
   );
 }
