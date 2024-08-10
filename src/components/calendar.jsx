@@ -1,11 +1,14 @@
-import { useState } from 'react';
-import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
+import * as React from 'react';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 
 export const CalendarPage = () => {
     return (
       <div>
-        <Calendar calendarType="gregory" />
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <DateCalendar />
+      </LocalizationProvider>
       </div>
     );
   };
