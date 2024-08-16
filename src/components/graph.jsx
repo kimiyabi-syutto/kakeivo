@@ -1,3 +1,5 @@
+// グラフコンポーネント
+
 import * as React from 'react';
 import { BarChart } from '@mui/x-charts/BarChart';
 

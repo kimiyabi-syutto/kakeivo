@@ -8,13 +8,13 @@ import { withAuthenticator } from "@aws-amplify/ui-react";
 import Paper from '@mui/material/Paper';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-import { CameraAlt,AppRegistration, CalendarMonth, Equalizer, Settings } from '@mui/icons-material';
+import { Home, CameraAlt,AppRegistration, CalendarMonth, Equalizer, Settings } from '@mui/icons-material';
 
-import { Home } from "./components/home";
-import { CalendarPage } from "./components/calendar";
+import { HomePage } from "./components/home";
+import { CalendarPage } from "./components/data_calendar";
 import { Graph } from "./components/graph";
-import { Camera } from "./components/camera";
-import { Scribe } from "./components/scribe";
+import { Camera } from "./components/camera_shot";
+import { Scribe } from "./components/input_set";
 import { Setting } from "./components/setting";
 
 function App({ signOut }) {
@@ -23,18 +23,19 @@ function App({ signOut }) {
     <div className="App">
       <header className="App-header">
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<HomePage />} />
           <Route path="/camera" element={<Camera />} />
           <Route path="/scribe" element={<Scribe />} />
           <Route path="/calendar" element={<CalendarPage />} />
           <Route path="/graph" element={<Graph />} />
-          <Route path="/setting" element={<Setting signOut />} />
+          <Route path="/setting" element={<Setting func={signOut} />} />
         </Routes>
         <br/><br/>
       </header>
     </div>
     <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
       <BottomNavigation showLabels>
+        <BottomNavigationAction component={Link} to="/" icon={<Home />} />
         <BottomNavigationAction component={Link} to="/camera" icon={<CameraAlt />} />
         <BottomNavigationAction component={Link} to="/scribe" icon={<AppRegistration />} />
         <BottomNavigationAction component={Link} to="/calendar" icon={<CalendarMonth />} />

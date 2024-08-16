@@ -1,14 +1,27 @@
+// ホームコンポーネント
+import { RectButton } from './atom/rect_button';
+import { SquareButton } from './atom/sqare_button';
+import { CameraAlt,AppRegistration, CalendarMonth, Equalizer, Settings } from '@mui/icons-material';
 
-
-import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
-export const Home = () => {
+export const HomePage = () => {
     return (
       <div>
-        <Link to="/calendar">カレンダーを見る</Link><br/>
-        <Link to="/scribe">手入力する</Link><br/>
-        <Link to="/graph">グラフを見る</Link><br/>
-        <Link to="/camera">カメラを起動する</Link><br/>
-        <Link to="/setting">設定</Link><br/>
+        <RectButton to="/scribe" bg_color='orange'>
+          <AppRegistration />手入力
+        </RectButton>
+        <RectButton to="/calendar" bg_color='cyan'>
+          <CameraAlt />レシート読込
+        </RectButton>
+        <SquareButton to="/data" bg_color='lightgreen'>
+          <CalendarMonth />一覧
+        </SquareButton>
+        <SquareButton to="/graph" bg_color='yellow'>
+          <Equalizer />グラフ
+        </SquareButton>
+        <SquareButton to="/settlement" bg_color='red'>月初入力</SquareButton>
+        <SquareButton to="/setting" bg_color='gray'>
+          <Settings />設定
+        </SquareButton>
       </div>
     );
   };

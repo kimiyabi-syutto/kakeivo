@@ -1,3 +1,5 @@
+// レシート読取コンポーネント
+
 import React from 'react';
 
 import Webcam from 'react-webcam';
