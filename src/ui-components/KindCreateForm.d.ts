@@ -21,29 +21,25 @@ export declare type ValidationResponse = {
     errorMessage?: string;
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
-export declare type TodoUpdateFormInputValues = {
-    storeName?: string;
-    sumPrice?: number;
+export declare type KindCreateFormInputValues = {
+    name?: string;
 };
-export declare type TodoUpdateFormValidationValues = {
-    storeName?: ValidationFunction<string>;
-    sumPrice?: ValidationFunction<number>;
+export declare type KindCreateFormValidationValues = {
+    name?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
-export declare type TodoUpdateFormOverridesProps = {
-    TodoUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
-    storeName?: PrimitiveOverrideProps<TextFieldProps>;
-    sumPrice?: PrimitiveOverrideProps<TextFieldProps>;
+export declare type KindCreateFormOverridesProps = {
+    KindCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
+    name?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
-export declare type TodoUpdateFormProps = React.PropsWithChildren<{
-    overrides?: TodoUpdateFormOverridesProps | undefined | null;
+export declare type KindCreateFormProps = React.PropsWithChildren<{
+    overrides?: KindCreateFormOverridesProps | undefined | null;
 } & {
-    id?: string;
-    todo?: any;
-    onSubmit?: (fields: TodoUpdateFormInputValues) => TodoUpdateFormInputValues;
-    onSuccess?: (fields: TodoUpdateFormInputValues) => void;
-    onError?: (fields: TodoUpdateFormInputValues, errorMessage: string) => void;
-    onChange?: (fields: TodoUpdateFormInputValues) => TodoUpdateFormInputValues;
-    onValidate?: TodoUpdateFormValidationValues;
+    clearOnSuccess?: boolean;
+    onSubmit?: (fields: KindCreateFormInputValues) => KindCreateFormInputValues;
+    onSuccess?: (fields: KindCreateFormInputValues) => void;
+    onError?: (fields: KindCreateFormInputValues, errorMessage: string) => void;
+    onChange?: (fields: KindCreateFormInputValues) => KindCreateFormInputValues;
+    onValidate?: KindCreateFormValidationValues;
 } & React.CSSProperties>;
-export default function TodoUpdateForm(props: TodoUpdateFormProps): React.ReactElement;
+export default function KindCreateForm(props: KindCreateFormProps): React.ReactElement;

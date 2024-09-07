@@ -8,9 +8,11 @@ export const createReceipt = /* GraphQL */ `
   ) {
     createReceipt(input: $input, condition: $condition) {
       id
-      storeName
+      store
       buyDate
       sumPrice
+      kind
+      payWay
       createdAt
       updatedAt
       __typename
@@ -24,9 +26,11 @@ export const updateReceipt = /* GraphQL */ `
   ) {
     updateReceipt(input: $input, condition: $condition) {
       id
-      storeName
+      store
       buyDate
       sumPrice
+      kind
+      payWay
       createdAt
       updatedAt
       __typename
@@ -40,9 +44,98 @@ export const deleteReceipt = /* GraphQL */ `
   ) {
     deleteReceipt(input: $input, condition: $condition) {
       id
-      storeName
+      store
       buyDate
       sumPrice
+      kind
+      payWay
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const createKind = /* GraphQL */ `
+  mutation CreateKind(
+    $input: CreateKindInput!
+    $condition: ModelKindConditionInput
+  ) {
+    createKind(input: $input, condition: $condition) {
+      id
+      name
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const updateKind = /* GraphQL */ `
+  mutation UpdateKind(
+    $input: UpdateKindInput!
+    $condition: ModelKindConditionInput
+  ) {
+    updateKind(input: $input, condition: $condition) {
+      id
+      name
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const deleteKind = /* GraphQL */ `
+  mutation DeleteKind(
+    $input: DeleteKindInput!
+    $condition: ModelKindConditionInput
+  ) {
+    deleteKind(input: $input, condition: $condition) {
+      id
+      name
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const createPayWay = /* GraphQL */ `
+  mutation CreatePayWay(
+    $input: CreatePayWayInput!
+    $condition: ModelPayWayConditionInput
+  ) {
+    createPayWay(input: $input, condition: $condition) {
+      id
+      name
+      type
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const updatePayWay = /* GraphQL */ `
+  mutation UpdatePayWay(
+    $input: UpdatePayWayInput!
+    $condition: ModelPayWayConditionInput
+  ) {
+    updatePayWay(input: $input, condition: $condition) {
+      id
+      name
+      type
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const deletePayWay = /* GraphQL */ `
+  mutation DeletePayWay(
+    $input: DeletePayWayInput!
+    $condition: ModelPayWayConditionInput
+  ) {
+    deletePayWay(input: $input, condition: $condition) {
+      id
+      name
+      type
       createdAt
       updatedAt
       __typename

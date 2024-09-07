@@ -1,5 +1,4 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import "@aws-amplify/ui-react/styles.css";
 import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
@@ -17,33 +16,63 @@ import { Camera } from "./components/camera_shot";
 import { Scribe } from "./components/input_set";
 import { Setting } from "./components/setting";
 
+import { ThemeProvider, createTheme } from '@mui/material/styles'
+import CssBaseline from '@mui/material/CssBaseline'
+
+// 画面が小さいとボトムバーからアイコンがはみ出るので、min-widthを上書き
+const bnaSx = {
+  minWidth: "0",
+  padding: "6px 0"
+};
 function App({ signOut }) {
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: '#009688',
+//        contrastText: '#795548',
+      },
+      background: {
+        default: '#0098ff',
+      },
+//      text: { primary: '#ff9800' },
+    },
+  });
+  var link = [
+    ["/", "", <HomePage />],
+    ["/camera/*", "", <Camera />],
+    ["/scribe/*", "", <Scribe />],
+    ["/calendar/*", "", <CalendarPage />],
+    ["/graph/*", "", <Graph />],
+    ["/setting/*", "", <Setting func={signOut} />],
+  ];
   return (
-    <BrowserRouter>
-    <div className="App">
-      <header className="App-header">
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/camera" element={<Camera />} />
-          <Route path="/scribe" element={<Scribe />} />
-          <Route path="/calendar" element={<CalendarPage />} />
-          <Route path="/graph" element={<Graph />} />
-          <Route path="/setting" element={<Setting func={signOut} />} />
-        </Routes>
-        <br/><br/>
-      </header>
-    </div>
-    <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
-      <BottomNavigation showLabels>
-        <BottomNavigationAction component={Link} to="/" icon={<Home />} />
-        <BottomNavigationAction component={Link} to="/camera" icon={<CameraAlt />} />
-        <BottomNavigationAction component={Link} to="/scribe" icon={<AppRegistration />} />
-        <BottomNavigationAction component={Link} to="/calendar" icon={<CalendarMonth />} />
-        <BottomNavigationAction component={Link} to="/graph" icon={<Equalizer />} />
-        <BottomNavigationAction component={Link} to="/setting" icon={<Settings />} />
-      </BottomNavigation>
-    </Paper>
-    </BrowserRouter>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <BrowserRouter>
+      <Routes>
+        { link.map((v)=>{
+          return <Route path={v[0]} element={
+          <div className="App">
+            <header className="App-header">
+              {v[2]}
+            </header>
+          </div>
+          } />
+        })}
+      </Routes>
+      <br/><br/>
+      <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
+        <BottomNavigation showLabels>
+          <BottomNavigationAction component={Link} sx={bnaSx} to="/" icon={<Home />} />
+          {/*<BottomNavigationAction component={Link} sx={bnaSx} to="/camera" icon={<CameraAlt />} />*/}
+          <BottomNavigationAction component={Link} sx={bnaSx} to="/scribe" icon={<AppRegistration />} />
+          <BottomNavigationAction component={Link} sx={bnaSx} to="/calendar" icon={<CalendarMonth />} />
+          <BottomNavigationAction component={Link} sx={bnaSx} to="/graph" icon={<Equalizer />} />
+          <BottomNavigationAction component={Link} sx={bnaSx} to="/setting" icon={<Settings />} />
+        </BottomNavigation>
+      </Paper>
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
 

@@ -7,12 +7,12 @@ export const HomePage = () => {
     return (
       <div>
         <RectButton to="/scribe" bg_color='orange'>
-          <AppRegistration />手入力
+          <AppRegistration />レシート入力
         </RectButton>
-        <RectButton to="/calendar" bg_color='cyan'>
+        {/* <RectButton to="/calendar" bg_color='cyan'>
           <CameraAlt />レシート読込
-        </RectButton>
-        <SquareButton to="/data" bg_color='lightgreen'>
+        </RectButton>*/}
+        <SquareButton to="/calendar" bg_color='lightgreen'>
           <CalendarMonth />一覧
         </SquareButton>
         <SquareButton to="/graph" bg_color='yellow'>

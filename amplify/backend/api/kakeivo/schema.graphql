@@ -4,7 +4,20 @@ input AMPLIFY { globalAuthRule: AuthRule = { allow: public } } # FOR TESTING ONL
 
 type Receipt @model {
   id: ID!
-  storeName: String
+  store: String
   buyDate: AWSDateTime
   sumPrice: Int
+  kind: String
+  payWay: String
+}
+
+type Kind @model {
+  id: ID!
+  name: String!
+}
+
+type PayWay @model {
+  id: ID!
+  name: String!
+  type: Int!
 }

@@ -1,15 +1,20 @@
 // 設定コンポーネント
 
-import {
-  Button,
-} from "@aws-amplify/ui-react";
+import { Route, Routes } from "react-router-dom";
 
-export const Setting = ({func}) => {
-    return (
-      <div>
-        設定画面<br/>
-        <Button onClick={func}>ログアウト</Button>
-      </div>
-    );
-  };
-  
+import { SettingTop } from "./setting_top";
+import { SettingType } from "./setting_type";
+import { SettingWay } from "./setting_way";
+
+export const Setting = ({signOut}) => {
+  return (
+    <div>
+      <h2>設定</h2>
+      <Routes>
+        <Route path="/type" element={<SettingType />} />
+        <Route path="/way" element={<SettingWay />} />
+        <Route path="/" element={<SettingTop func={signOut} />} />
+      </Routes>
+    </div>
+  );
+};

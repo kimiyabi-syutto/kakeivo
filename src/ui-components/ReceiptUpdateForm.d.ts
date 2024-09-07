@@ -22,21 +22,27 @@ export declare type ValidationResponse = {
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type ReceiptUpdateFormInputValues = {
-    storeName?: string;
+    store?: string;
     buyDate?: string;
     sumPrice?: number;
+    kind?: string;
+    payWay?: string;
 };
 export declare type ReceiptUpdateFormValidationValues = {
-    storeName?: ValidationFunction<string>;
+    store?: ValidationFunction<string>;
     buyDate?: ValidationFunction<string>;
     sumPrice?: ValidationFunction<number>;
+    kind?: ValidationFunction<string>;
+    payWay?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type ReceiptUpdateFormOverridesProps = {
     ReceiptUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
-    storeName?: PrimitiveOverrideProps<TextFieldProps>;
+    store?: PrimitiveOverrideProps<TextFieldProps>;
     buyDate?: PrimitiveOverrideProps<TextFieldProps>;
     sumPrice?: PrimitiveOverrideProps<TextFieldProps>;
+    kind?: PrimitiveOverrideProps<TextFieldProps>;
+    payWay?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type ReceiptUpdateFormProps = React.PropsWithChildren<{
     overrides?: ReceiptUpdateFormOverridesProps | undefined | null;

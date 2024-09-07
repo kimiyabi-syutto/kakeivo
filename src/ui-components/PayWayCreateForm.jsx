@@ -9,9 +9,9 @@ import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { generateClient } from "aws-amplify/api";
-import { createTodo } from "../graphql/mutations";
+import { createPayWay } from "../graphql/mutations";
 const client = generateClient();
-export default function TodoCreateForm(props) {
+export default function PayWayCreateForm(props) {
   const {
     clearOnSuccess = true,
     onSuccess,
@@ -23,20 +23,20 @@ export default function TodoCreateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    storeName: "",
-    sumPrice: "",
+    name: "",
+    type: "",
   };
-  const [storeName, setStoreName] = React.useState(initialValues.storeName);
-  const [sumPrice, setSumPrice] = React.useState(initialValues.sumPrice);
+  const [name, setName] = React.useState(initialValues.name);
+  const [type, setType] = React.useState(initialValues.type);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    setStoreName(initialValues.storeName);
-    setSumPrice(initialValues.sumPrice);
+    setName(initialValues.name);
+    setType(initialValues.type);
     setErrors({});
   };
   const validations = {
-    storeName: [],
-    sumPrice: [],
+    name: [{ type: "Required" }],
+    type: [{ type: "Required" }],
   };
   const runValidationTasks = async (
     fieldName,
@@ -64,8 +64,8 @@ export default function TodoCreateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          storeName,
-          sumPrice,
+          name,
+          type,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -96,7 +96,7 @@ export default function TodoCreateForm(props) {
             }
           });
           await client.graphql({
-            query: createTodo.replaceAll("__typename", ""),
+            query: createPayWay.replaceAll("__typename", ""),
             variables: {
               input: {
                 ...modelFields,
@@ -116,62 +116,58 @@ export default function TodoCreateForm(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "TodoCreateForm")}
+      {...getOverrideProps(overrides, "PayWayCreateForm")}
       {...rest}
     >
       <TextField
-        label="Store name"
-        isRequired={false}
+        label="Name"
+        isRequired={true}
         isReadOnly={false}
-        value={storeName}
+        value={name}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              storeName: value,
-              sumPrice,
+              name: value,
+              type,
             };
             const result = onChange(modelFields);
-            value = result?.storeName ?? value;
+            value = result?.name ?? value;
           }
-          if (errors.storeName?.hasError) {
-            runValidationTasks("storeName", value);
+          if (errors.name?.hasError) {
+            runValidationTasks("name", value);
           }
-          setStoreName(value);
+          setName(value);
         }}
-        onBlur={() => runValidationTasks("storeName", storeName)}
-        errorMessage={errors.storeName?.errorMessage}
-        hasError={errors.storeName?.hasError}
-        {...getOverrideProps(overrides, "storeName")}
+        onBlur={() => runValidationTasks("name", name)}
+        errorMessage={errors.name?.errorMessage}
+        hasError={errors.name?.hasError}
+        {...getOverrideProps(overrides, "name")}
       ></TextField>
       <TextField
-        label="Sum price"
-        isRequired={false}
+        label="Type"
+        isRequired={true}
         isReadOnly={false}
-        type="number"
-        step="any"
-        value={sumPrice}
+        value={type}
         onChange={(e) => {
-          let value = isNaN(parseInt(e.target.value))
-            ? e.target.value
-            : parseInt(e.target.value);
+          let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              storeName,
-              sumPrice: value,
+              name,
+              tpye: value,
             };
             const result = onChange(modelFields);
-            value = result?.sumPrice ?? value;
+            value = result?.tpye ?? value;
           }
-          if (errors.sumPrice?.hasError) {
-            runValidationTasks("sumPrice", value);
+          if (errors.type?.hasError) {
+            runValidationTasks("type", value);
           }
-          setSumPrice(value);
+          setName(value);
         }}
-        onBlur={() => runValidationTasks("sumPrice", sumPrice)}
-        errorMessage={errors.sumPrice?.errorMessage}
-        hasError={errors.sumPrice?.hasError}
-        {...getOverrideProps(overrides, "sumPrice")}
+        onBlur={() => runValidationTasks("type", type)}
+        errorMessage={errors.type?.errorMessage}
+        hasError={errors.type?.hasError}
+        {...getOverrideProps(overrides, "type")}
       ></TextField>
       <Flex
         justifyContent="space-between"

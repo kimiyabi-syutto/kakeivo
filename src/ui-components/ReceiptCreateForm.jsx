@@ -23,24 +23,32 @@ export default function ReceiptCreateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    storeName: "",
+    store: "",
     buyDate: "",
     sumPrice: "",
+    kind: "",
+    payWay: "",
   };
-  const [storeName, setStoreName] = React.useState(initialValues.storeName);
+  const [store, setStore] = React.useState(initialValues.store);
   const [buyDate, setBuyDate] = React.useState(initialValues.buyDate);
   const [sumPrice, setSumPrice] = React.useState(initialValues.sumPrice);
+  const [kind, setKind] = React.useState(initialValues.kind);
+  const [payWay, setPayWay] = React.useState(initialValues.payWay);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    setStoreName(initialValues.storeName);
+    setStore(initialValues.store);
     setBuyDate(initialValues.buyDate);
     setSumPrice(initialValues.sumPrice);
+    setKind(initialValues.kind);
+    setPayWay(initialValues.payWay);
     setErrors({});
   };
   const validations = {
-    storeName: [],
+    store: [],
     buyDate: [],
     sumPrice: [],
+    kind: [],
+    payWay: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -85,9 +93,11 @@ export default function ReceiptCreateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          storeName,
+          store,
           buyDate,
           sumPrice,
+          kind,
+          payWay,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -142,30 +152,32 @@ export default function ReceiptCreateForm(props) {
       {...rest}
     >
       <TextField
-        label="Store name"
+        label="Store"
         isRequired={false}
         isReadOnly={false}
-        value={storeName}
+        value={store}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              storeName: value,
+              store: value,
               buyDate,
               sumPrice,
+              kind,
+              payWay,
             };
             const result = onChange(modelFields);
-            value = result?.storeName ?? value;
+            value = result?.store ?? value;
           }
-          if (errors.storeName?.hasError) {
-            runValidationTasks("storeName", value);
+          if (errors.store?.hasError) {
+            runValidationTasks("store", value);
           }
-          setStoreName(value);
+          setStore(value);
         }}
-        onBlur={() => runValidationTasks("storeName", storeName)}
-        errorMessage={errors.storeName?.errorMessage}
-        hasError={errors.storeName?.hasError}
-        {...getOverrideProps(overrides, "storeName")}
+        onBlur={() => runValidationTasks("store", store)}
+        errorMessage={errors.store?.errorMessage}
+        hasError={errors.store?.hasError}
+        {...getOverrideProps(overrides, "store")}
       ></TextField>
       <TextField
         label="Buy date"
@@ -178,9 +190,11 @@ export default function ReceiptCreateForm(props) {
             e.target.value === "" ? "" : new Date(e.target.value).toISOString();
           if (onChange) {
             const modelFields = {
-              storeName,
+              store,
               buyDate: value,
               sumPrice,
+              kind,
+              payWay,
             };
             const result = onChange(modelFields);
             value = result?.buyDate ?? value;
@@ -208,9 +222,11 @@ export default function ReceiptCreateForm(props) {
             : parseInt(e.target.value);
           if (onChange) {
             const modelFields = {
-              storeName,
+              store,
               buyDate,
               sumPrice: value,
+              kind,
+              payWay,
             };
             const result = onChange(modelFields);
             value = result?.sumPrice ?? value;
@@ -224,6 +240,62 @@ export default function ReceiptCreateForm(props) {
         errorMessage={errors.sumPrice?.errorMessage}
         hasError={errors.sumPrice?.hasError}
         {...getOverrideProps(overrides, "sumPrice")}
+      ></TextField>
+      <TextField
+        label="Kind"
+        isRequired={false}
+        isReadOnly={false}
+        value={kind}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              store,
+              buyDate,
+              sumPrice,
+              kind: value,
+              payWay,
+            };
+            const result = onChange(modelFields);
+            value = result?.kind ?? value;
+          }
+          if (errors.kind?.hasError) {
+            runValidationTasks("kind", value);
+          }
+          setKind(value);
+        }}
+        onBlur={() => runValidationTasks("kind", kind)}
+        errorMessage={errors.kind?.errorMessage}
+        hasError={errors.kind?.hasError}
+        {...getOverrideProps(overrides, "kind")}
+      ></TextField>
+      <TextField
+        label="Pay way"
+        isRequired={false}
+        isReadOnly={false}
+        value={payWay}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              store,
+              buyDate,
+              sumPrice,
+              kind,
+              payWay: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.payWay ?? value;
+          }
+          if (errors.payWay?.hasError) {
+            runValidationTasks("payWay", value);
+          }
+          setPayWay(value);
+        }}
+        onBlur={() => runValidationTasks("payWay", payWay)}
+        errorMessage={errors.payWay?.errorMessage}
+        hasError={errors.payWay?.hasError}
+        {...getOverrideProps(overrides, "payWay")}
       ></TextField>
       <Flex
         justifyContent="space-between"

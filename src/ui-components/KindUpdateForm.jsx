@@ -9,13 +9,13 @@ import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { generateClient } from "aws-amplify/api";
-import { getTodo } from "../graphql/queries";
-import { updateTodo } from "../graphql/mutations";
+import { getKind } from "../graphql/queries";
+import { updateKind } from "../graphql/mutations";
 const client = generateClient();
-export default function TodoUpdateForm(props) {
+export default function KindUpdateForm(props) {
   const {
     id: idProp,
-    todo: todoModelProp,
+    kind: kindModelProp,
     onSuccess,
     onError,
     onSubmit,
@@ -25,39 +25,35 @@ export default function TodoUpdateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    storeName: "",
-    sumPrice: "",
+    name: "",
   };
-  const [storeName, setStoreName] = React.useState(initialValues.storeName);
-  const [sumPrice, setSumPrice] = React.useState(initialValues.sumPrice);
+  const [name, setName] = React.useState(initialValues.name);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    const cleanValues = todoRecord
-      ? { ...initialValues, ...todoRecord }
+    const cleanValues = kindRecord
+      ? { ...initialValues, ...kindRecord }
       : initialValues;
-    setStoreName(cleanValues.storeName);
-    setSumPrice(cleanValues.sumPrice);
+    setName(cleanValues.name);
     setErrors({});
   };
-  const [todoRecord, setTodoRecord] = React.useState(todoModelProp);
+  const [kindRecord, setKindRecord] = React.useState(kindModelProp);
   React.useEffect(() => {
     const queryData = async () => {
       const record = idProp
         ? (
             await client.graphql({
-              query: getTodo.replaceAll("__typename", ""),
+              query: getKind.replaceAll("__typename", ""),
               variables: { id: idProp },
             })
-          )?.data?.getTodo
-        : todoModelProp;
-      setTodoRecord(record);
+          )?.data?.getKind
+        : kindModelProp;
+      setKindRecord(record);
     };
     queryData();
-  }, [idProp, todoModelProp]);
-  React.useEffect(resetStateValues, [todoRecord]);
+  }, [idProp, kindModelProp]);
+  React.useEffect(resetStateValues, [kindRecord]);
   const validations = {
-    storeName: [],
-    sumPrice: [],
+    name: [{ type: "Required" }],
   };
   const runValidationTasks = async (
     fieldName,
@@ -85,8 +81,7 @@ export default function TodoUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          storeName: storeName ?? null,
-          sumPrice: sumPrice ?? null,
+          name,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -117,10 +112,10 @@ export default function TodoUpdateForm(props) {
             }
           });
           await client.graphql({
-            query: updateTodo.replaceAll("__typename", ""),
+            query: updateKind.replaceAll("__typename", ""),
             variables: {
               input: {
-                id: todoRecord.id,
+                id: kindRecord.id,
                 ...modelFields,
               },
             },
@@ -135,62 +130,32 @@ export default function TodoUpdateForm(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "TodoUpdateForm")}
+      {...getOverrideProps(overrides, "KindUpdateForm")}
       {...rest}
     >
       <TextField
-        label="Store name"
-        isRequired={false}
+        label="Name"
+        isRequired={true}
         isReadOnly={false}
-        value={storeName}
+        value={name}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              storeName: value,
-              sumPrice,
+              name: value,
             };
             const result = onChange(modelFields);
-            value = result?.storeName ?? value;
+            value = result?.name ?? value;
           }
-          if (errors.storeName?.hasError) {
-            runValidationTasks("storeName", value);
+          if (errors.name?.hasError) {
+            runValidationTasks("name", value);
           }
-          setStoreName(value);
+          setName(value);
         }}
-        onBlur={() => runValidationTasks("storeName", storeName)}
-        errorMessage={errors.storeName?.errorMessage}
-        hasError={errors.storeName?.hasError}
-        {...getOverrideProps(overrides, "storeName")}
-      ></TextField>
-      <TextField
-        label="Sum price"
-        isRequired={false}
-        isReadOnly={false}
-        type="number"
-        step="any"
-        value={sumPrice}
-        onChange={(e) => {
-          let value = isNaN(parseInt(e.target.value))
-            ? e.target.value
-            : parseInt(e.target.value);
-          if (onChange) {
-            const modelFields = {
-              storeName,
-              sumPrice: value,
-            };
-            const result = onChange(modelFields);
-            value = result?.sumPrice ?? value;
-          }
-          if (errors.sumPrice?.hasError) {
-            runValidationTasks("sumPrice", value);
-          }
-          setSumPrice(value);
-        }}
-        onBlur={() => runValidationTasks("sumPrice", sumPrice)}
-        errorMessage={errors.sumPrice?.errorMessage}
-        hasError={errors.sumPrice?.hasError}
-        {...getOverrideProps(overrides, "sumPrice")}
+        onBlur={() => runValidationTasks("name", name)}
+        errorMessage={errors.name?.errorMessage}
+        hasError={errors.name?.hasError}
+        {...getOverrideProps(overrides, "name")}
       ></TextField>
       <Flex
         justifyContent="space-between"
@@ -203,7 +168,7 @@ export default function TodoUpdateForm(props) {
             event.preventDefault();
             resetStateValues();
           }}
-          isDisabled={!(idProp || todoModelProp)}
+          isDisabled={!(idProp || kindModelProp)}
           {...getOverrideProps(overrides, "ResetButton")}
         ></Button>
         <Flex
@@ -215,7 +180,7 @@ export default function TodoUpdateForm(props) {
             type="submit"
             variation="primary"
             isDisabled={
-              !(idProp || todoModelProp) ||
+              !(idProp || kindModelProp) ||
               Object.values(errors).some((e) => e?.hasError)
             }
             {...getOverrideProps(overrides, "SubmitButton")}
