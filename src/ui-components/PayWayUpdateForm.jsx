@@ -167,9 +167,13 @@ export default function PayWayUpdateForm(props) {
         label="Type"
         isRequired={true}
         isReadOnly={false}
+        type="number"
+        step="any"
         value={type}
         onChange={(e) => {
-          let { value } = e.target;
+          let value = isNaN(parseInt(e.target.value))
+            ? e.target.value
+            : parseInt(e.target.value);
           if (onChange) {
             const modelFields = {
               name,
@@ -181,7 +185,7 @@ export default function PayWayUpdateForm(props) {
           if (errors.type?.hasError) {
             runValidationTasks("type", value);
           }
-          setName(value);
+          setType(value);
         }}
         onBlur={() => runValidationTasks("type", type)}
         errorMessage={errors.type?.errorMessage}

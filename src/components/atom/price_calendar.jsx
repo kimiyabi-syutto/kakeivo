@@ -1,25 +1,27 @@
 // カレンダー表示コンポーネント
 import React, { useState, useEffect } from "react";
 
-import { Paper, Button, Table, TableBody, TableCell, TableContainer, TableHead,TableRow } from '@mui/material';
+import { Paper, Button, Typography, Table, TableBody, TableCell, TableContainer, TableHead,TableRow } from '@mui/material';
 
 const isUruu = (year)=>{
   return year%4==0 && ((year%100!=0) || (year%400==0));
 }
 const getFirstDay = (date)=>{
-  var fd = 1;
+  var fd = 0;
   for(var i = 1; i<date.year; ++i){
     fd += isUruu(i) ? 2 : 1;
   }
-
-
+  for(var i = 1; i<date.month; ++i){
+    fd += getMonthDays(date.year, i);
+  }
+  fd += 11;
   return fd % 7;
 }
-const getMonthDays = (date)=>{
-  if(date.month == 2) {
-    return isUruu(date.year) ? 29 : 28;
+const getMonthDays = (y, m)=>{
+  if(m == 2) {
+    return isUruu(y) ? 29 : 28;
   }
-  if(date.month == 4 || date.month == 6 || date.month == 9 || date.month == 11) {
+  if(m == 4 || m == 6 || m == 9 || m == 11) {
     return 30;
   }
   return 31;
@@ -35,7 +37,7 @@ const getPrevMonth = (d)=>{
     date.year -= 1;
     date.month += 12;
   }
-  var monthdays=getMonthDays(date);
+  var monthdays=getMonthDays(date.year, date.month);
   if(date.day > monthdays){
     date.day=monthdays;
   }
@@ -52,7 +54,7 @@ const getNextMonth = (d)=>{
     date.year += 1;
     date.month -= 12;
   }
-  var monthdays=getMonthDays(date);
+  var monthdays=getMonthDays(date.year, date.month);
   if(date.day > monthdays){
     date.day=monthdays;
   }
@@ -60,22 +62,21 @@ const getNextMonth = (d)=>{
 }
 
 export const PriceCalendar = ({date, priceData, onChange}) => {
-  var [d, setDate] = useState(date); 
-
-  var firstDay = getFirstDay(d);
-  var monthDays = getMonthDays(d);
+  var dispYM = (date.day > 10) ? date : getPrevMonth(date);
+  var firstDay = getFirstDay(dispYM);
+  var monthDays = getMonthDays(dispYM.year,dispYM.month);
   var weekCount = Math.ceil((firstDay + monthDays) / 7);
   var days = ["日","月","火","水","木","金","土"];
   return (
-    <Paper sx={{width:"110%" }}>
+    <Paper sx={{width:"100%" }}>
       <Button onClick={()=>{
-        setDate(getPrevMonth(d));
+        onChange(getPrevMonth(date));
       }}>
         ＜
       </Button>
-      {d.year}年{d.month}月
+      {dispYM.year}年{dispYM.month}月
       <Button onClick={()=>{
-        setDate(getNextMonth(d));
+        onChange(getNextMonth(date));
       }}>
         ＞
       </Button>
@@ -94,12 +95,28 @@ export const PriceCalendar = ({date, priceData, onChange}) => {
               <TableRow>
                 { Array(7).fill(0).map((_,j)=>
                   {
-                    var v=(i*7+j-firstDay);
-                    var p = 1200;
-                    return <TableCell onClick={()=>{
-                    }}>
-                      {(v<=0 || monthDays< v) ? "" : v}<br/>
-                      ¥{p}
+                    var v=(i*7+j-firstDay+11);
+                    var p = 0;
+                    return <TableCell
+                      sx = {{p:0, m:0}}
+                      align="center"
+                      onClick={()=>{
+                        if(10 < v && v <= monthDays){
+                          date.day = v;
+                          onChange(date);
+                        }
+                        if(monthDays < v && v <= monthDays + 10){
+                          date.day = v-monthDays;
+                          date = getNextMonth(date);
+                          onChange(date);
+                        }
+                      }}>
+                      <Typography>
+                        {(10 < v && v <= monthDays) ? v
+                        : (monthDays < v && v <= monthDays + 10) ? v-monthDays
+                        : "" }<br/>
+                        {p == 0 ? "" : "¥" + p}
+                      </Typography>
                     </TableCell>
                   }
                 )}
