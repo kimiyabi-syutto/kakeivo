@@ -46,33 +46,35 @@ function App({ signOut }) {
     ["/setting/*", "", <Setting func={signOut} />],
   ];
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <BrowserRouter>
-      <Routes>
-        { link.map((v)=>{
-          return <Route path={v[0]} element={
-          <div className="App">
-            <header className="App-header">
-              {v[2]}
-            </header>
-          </div>
-          } />
-        })}
-      </Routes>
-      <br/><br/>
-      <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
-        <BottomNavigation showLabels>
-          <BottomNavigationAction component={Link} sx={bnaSx} to="/" icon={<Home />} />
-          {/*<BottomNavigationAction component={Link} sx={bnaSx} to="/camera" icon={<CameraAlt />} />*/}
-          <BottomNavigationAction component={Link} sx={bnaSx} to="/scribe" icon={<AppRegistration />} />
-          <BottomNavigationAction component={Link} sx={bnaSx} to="/calendar" icon={<CalendarMonth />} />
-          <BottomNavigationAction component={Link} sx={bnaSx} to="/graph" icon={<Equalizer />} />
-          <BottomNavigationAction component={Link} sx={bnaSx} to="/setting" icon={<Settings />} />
-        </BottomNavigation>
-      </Paper>
-      </BrowserRouter>
-    </ThemeProvider>
+    <React.StrictMode>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <BrowserRouter>
+        <Routes>
+          { link.map((v)=>{
+            return <Route path={v[0]} element={
+            <div className="App">
+              <header className="App-header">
+                {v[2]}
+              </header>
+            </div>
+            } />
+          })}
+        </Routes>
+        <br/><br/>
+        <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
+          <BottomNavigation showLabels>
+            <BottomNavigationAction component={Link} sx={bnaSx} to="/" icon={<Home />} />
+            {/*<BottomNavigationAction component={Link} sx={bnaSx} to="/camera" icon={<CameraAlt />} />*/}
+            <BottomNavigationAction component={Link} sx={bnaSx} to="/scribe" icon={<AppRegistration />} />
+            <BottomNavigationAction component={Link} sx={bnaSx} to="/calendar" icon={<CalendarMonth />} />
+            <BottomNavigationAction component={Link} sx={bnaSx} to="/graph" icon={<Equalizer />} />
+            <BottomNavigationAction component={Link} sx={bnaSx} to="/setting" icon={<Settings />} />
+          </BottomNavigation>
+        </Paper>
+        </BrowserRouter>
+      </ThemeProvider>
+    </React.StrictMode>
   );
 }
 

@@ -60,6 +60,7 @@ export const Scribe = () => {
     event.preventDefault();
     const form = new FormData(event.target);
     const data = {
+      goods: form.get("goods"),
       store: form.get("storeName"),
       sumPrice: form.get("sumPrice"),
       buyDate: new Date(form.get("buyDate")),
@@ -105,6 +106,10 @@ export const Scribe = () => {
       </LocalizationProvider>
     </div>
   </Box>
+  <Stack direction="row" sx={{p:1}}>
+    <Box>内容</Box>
+    <TextField name={"goods"}></TextField>
+  </Stack>
   <Stack direction="row" sx={{p:1}}>
     <Box>店名</Box>
     <TextField name={"storeName"}></TextField>
@@ -154,4 +159,3 @@ export const Scribe = () => {
     </div>
   );
 };
-  

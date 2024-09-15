@@ -96,25 +96,53 @@ export const PriceCalendar = ({date, priceData, onChange}) => {
                 { Array(7).fill(0).map((_,j)=>
                   {
                     var v=(i*7+j-firstDay+11);
-                    var p = 0;
+                    var dispDate ={
+                      year:date.year,
+                      month:date.month,
+                      day:date.day,
+                    };
+                    var isEmpty = true;
+                    if (10 < v && v <= monthDays + 10 ){
+                      var newDay = v <= monthDays ? v : (v - monthDays);
+                      var isNextMonth = date.day <= 10;
+                      var toNextMonth = newDay <= 10;
+                      if(isNextMonth && !toNextMonth){
+                        dispDate = getPrevMonth(dispDate);
+                      }
+                      dispDate.day = newDay;
+                      if(!isNextMonth && toNextMonth){
+                        dispDate = getNextMonth(dispDate);
+                      }
+                      isEmpty = false;
+                    }
+
+                    var p =isEmpty ? 0 : priceData.reduce((i, v)=>{
+                      console.log(v.buyDate.substring(8, 10) +"  \  "+ dispDate.day);
+                      if(parseInt(v.buyDate.substring(0, 4)) == dispDate.year &&
+                        parseInt(v.buyDate.substring(5, 7)) == dispDate.month &&
+                        parseInt(v.buyDate.substring(8, 10)) == dispDate.day
+                      ){
+                        return i + v.sumPrice;
+                      }else{
+                        return i ;
+                      }
+                    }, 0);
                     return <TableCell
                       sx = {{p:0, m:0}}
                       align="center"
-                      onClick={()=>{
-                        if(10 < v && v <= monthDays){
-                          date.day = v;
-                          onChange(date);
-                        }
-                        if(monthDays < v && v <= monthDays + 10){
-                          date.day = v-monthDays;
-                          date = getNextMonth(date);
-                          onChange(date);
-                        }
+                      onClick={ ()=>{
+                        if(isEmpty){return;}
+                        onChange(dispDate);
                       }}>
-                      <Typography>
-                        {(10 < v && v <= monthDays) ? v
-                        : (monthDays < v && v <= monthDays + 10) ? v-monthDays
-                        : "" }<br/>
+                      <Typography
+                        sx={{
+                          border: (!isEmpty && date.day == dispDate.day) ? 1 : 0, 
+                          borderRadius: '50%',
+                          height:"50px",
+                          width:"50px",
+                        }}
+                      >
+                        { isEmpty ? "" : dispDate.day }<br/>
                         {p == 0 ? "" : "¥" + p}
                       </Typography>
                     </TableCell>

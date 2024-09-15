@@ -8,6 +8,7 @@ export const createReceipt = /* GraphQL */ `
   ) {
     createReceipt(input: $input, condition: $condition) {
       id
+      goods
       store
       buyDate
       sumPrice
@@ -26,6 +27,7 @@ export const updateReceipt = /* GraphQL */ `
   ) {
     updateReceipt(input: $input, condition: $condition) {
       id
+      goods
       store
       buyDate
       sumPrice
@@ -44,6 +46,7 @@ export const deleteReceipt = /* GraphQL */ `
   ) {
     deleteReceipt(input: $input, condition: $condition) {
       id
+      goods
       store
       buyDate
       sumPrice

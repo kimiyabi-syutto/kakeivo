@@ -22,6 +22,7 @@ export declare type ValidationResponse = {
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type ReceiptUpdateFormInputValues = {
+    goods?: string;
     store?: string;
     buyDate?: string;
     sumPrice?: number;
@@ -29,6 +30,7 @@ export declare type ReceiptUpdateFormInputValues = {
     payWay?: string;
 };
 export declare type ReceiptUpdateFormValidationValues = {
+    goods?: ValidationFunction<string>;
     store?: ValidationFunction<string>;
     buyDate?: ValidationFunction<string>;
     sumPrice?: ValidationFunction<number>;
@@ -38,6 +40,7 @@ export declare type ReceiptUpdateFormValidationValues = {
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type ReceiptUpdateFormOverridesProps = {
     ReceiptUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
+    goods?: PrimitiveOverrideProps<TextFieldProps>;
     store?: PrimitiveOverrideProps<TextFieldProps>;
     buyDate?: PrimitiveOverrideProps<TextFieldProps>;
     sumPrice?: PrimitiveOverrideProps<TextFieldProps>;

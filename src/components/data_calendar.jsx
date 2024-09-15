@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import {PriceCalendar} from "./atom/price_calendar"
+import { BackButton } from './atom/back_button';
 
 import { generateClient } from 'aws-amplify/api';
 import { listReceipts } from "../graphql/queries";
@@ -9,14 +10,21 @@ import {
   deleteReceipt as deleteReceiptMutation,
 } from "../graphql/mutations";
 
-import { Paper, Button, Typography, Table, TableBody, TableCell, TableContainer, TableHead,TableRow } from '@mui/material';
+import { Flex, Text, View } from "@aws-amplify/ui-react";
+import { Paper, Button, Typography } from '@mui/material';
 
 export const CalendarPage = () => {
 
   const [date, setDate] = useState(new Date());
   const [receipts, setReceipts] = useState([]);
+  const [isReceiptsLoaded, setReceiptsLoaded] = useState(false);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    if(!isReceiptsLoaded){
+      fetchReceipts();
+      setReceiptsLoaded(true);
+    }
+  }, []);
   const client = generateClient();
 
   async function fetchReceipts() {
@@ -34,17 +42,19 @@ export const CalendarPage = () => {
     });
     fetchReceipts();
   }
-
   return (
     <div>
-      <PriceCalendar 
+      <BackButton to={"/"} />
+      <PriceCalendar
         date={{
           year:date.getFullYear(),
           month:date.getMonth()+1,
           day:date.getDate()}}
-        priceData={""}
+        priceData={receipts}
         onChange={
-          (d)=>setDate(new Date(d.year, d.month-1, d.day))
+          (d)=>{
+            setDate(new Date(d.year, d.month-1, d.day));
+          }
         }
       />
       <br/>
@@ -63,7 +73,33 @@ export const CalendarPage = () => {
       <br/>
       <Paper sx={{width:"100%" }}>
         {date.getFullYear()}年{date.getMonth()+1}月{date.getDate()}日
-
+        <View margin="3rem 0">
+          {receipts.map((receipt) => (
+            <Flex
+              key={receipt.id || receipt.store}
+              direction="row"
+              justifyContent="center"
+              alignItems="center"
+            >
+              <Text as="strong" fontWeight={700}>
+                {receipt.goods ? receipt.goods : "-----" }
+              </Text>
+              <Text fontWeight={700}>
+                {receipt.store ? receipt.store : "-----"}
+              </Text>
+              <Text as="span">{receipt.sumPrice}円</Text>
+              <Text as="strong" fontWeight={700}>
+                [{receipt.kind}]
+              </Text>
+              <Text as="strong" fontWeight={700}>
+                [{receipt.payWay}]
+              </Text>
+              <Button variation="link" onClick={() => deleteReceipt(receipt)}>
+                削除
+              </Button>
+            </Flex>
+          ))}
+        </View>
       </Paper>
     </div>
   );

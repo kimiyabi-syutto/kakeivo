@@ -5,6 +5,7 @@ export const onCreateReceipt = /* GraphQL */ `
   subscription OnCreateReceipt($filter: ModelSubscriptionReceiptFilterInput) {
     onCreateReceipt(filter: $filter) {
       id
+      goods
       store
       buyDate
       sumPrice
@@ -20,6 +21,7 @@ export const onUpdateReceipt = /* GraphQL */ `
   subscription OnUpdateReceipt($filter: ModelSubscriptionReceiptFilterInput) {
     onUpdateReceipt(filter: $filter) {
       id
+      goods
       store
       buyDate
       sumPrice
@@ -35,6 +37,7 @@ export const onDeleteReceipt = /* GraphQL */ `
   subscription OnDeleteReceipt($filter: ModelSubscriptionReceiptFilterInput) {
     onDeleteReceipt(filter: $filter) {
       id
+      goods
       store
       buyDate
       sumPrice

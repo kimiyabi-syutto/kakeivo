@@ -5,6 +5,7 @@ export const getReceipt = /* GraphQL */ `
   query GetReceipt($id: ID!) {
     getReceipt(id: $id) {
       id
+      goods
       store
       buyDate
       sumPrice
@@ -25,6 +26,7 @@ export const listReceipts = /* GraphQL */ `
     listReceipts(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        goods
         store
         buyDate
         sumPrice

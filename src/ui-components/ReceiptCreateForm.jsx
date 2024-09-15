@@ -23,12 +23,14 @@ export default function ReceiptCreateForm(props) {
     ...rest
   } = props;
   const initialValues = {
+    goods: "",
     store: "",
     buyDate: "",
     sumPrice: "",
     kind: "",
     payWay: "",
   };
+  const [goods, setGoods] = React.useState(initialValues.goods);
   const [store, setStore] = React.useState(initialValues.store);
   const [buyDate, setBuyDate] = React.useState(initialValues.buyDate);
   const [sumPrice, setSumPrice] = React.useState(initialValues.sumPrice);
@@ -36,6 +38,7 @@ export default function ReceiptCreateForm(props) {
   const [payWay, setPayWay] = React.useState(initialValues.payWay);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
+    setGoods(initialValues.goods);
     setStore(initialValues.store);
     setBuyDate(initialValues.buyDate);
     setSumPrice(initialValues.sumPrice);
@@ -44,9 +47,10 @@ export default function ReceiptCreateForm(props) {
     setErrors({});
   };
   const validations = {
+    goods: [],
     store: [],
-    buyDate: [],
-    sumPrice: [],
+    buyDate: [{ type: "Required" }],
+    sumPrice: [{ type: "Required" }],
     kind: [],
     payWay: [],
   };
@@ -93,6 +97,7 @@ export default function ReceiptCreateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
+          goods,
           store,
           buyDate,
           sumPrice,
@@ -152,6 +157,35 @@ export default function ReceiptCreateForm(props) {
       {...rest}
     >
       <TextField
+        label="Goods"
+        isRequired={false}
+        isReadOnly={false}
+        value={goods}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              goods: value,
+              store,
+              buyDate,
+              sumPrice,
+              kind,
+              payWay,
+            };
+            const result = onChange(modelFields);
+            value = result?.goods ?? value;
+          }
+          if (errors.goods?.hasError) {
+            runValidationTasks("goods", value);
+          }
+          setGoods(value);
+        }}
+        onBlur={() => runValidationTasks("goods", goods)}
+        errorMessage={errors.goods?.errorMessage}
+        hasError={errors.goods?.hasError}
+        {...getOverrideProps(overrides, "goods")}
+      ></TextField>
+      <TextField
         label="Store"
         isRequired={false}
         isReadOnly={false}
@@ -160,6 +194,7 @@ export default function ReceiptCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              goods,
               store: value,
               buyDate,
               sumPrice,
@@ -181,7 +216,7 @@ export default function ReceiptCreateForm(props) {
       ></TextField>
       <TextField
         label="Buy date"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         type="datetime-local"
         value={buyDate && convertToLocal(new Date(buyDate))}
@@ -190,6 +225,7 @@ export default function ReceiptCreateForm(props) {
             e.target.value === "" ? "" : new Date(e.target.value).toISOString();
           if (onChange) {
             const modelFields = {
+              goods,
               store,
               buyDate: value,
               sumPrice,
@@ -211,7 +247,7 @@ export default function ReceiptCreateForm(props) {
       ></TextField>
       <TextField
         label="Sum price"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         type="number"
         step="any"
@@ -222,6 +258,7 @@ export default function ReceiptCreateForm(props) {
             : parseInt(e.target.value);
           if (onChange) {
             const modelFields = {
+              goods,
               store,
               buyDate,
               sumPrice: value,
@@ -250,6 +287,7 @@ export default function ReceiptCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              goods,
               store,
               buyDate,
               sumPrice,
@@ -278,6 +316,7 @@ export default function ReceiptCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              goods,
               store,
               buyDate,
               sumPrice,
