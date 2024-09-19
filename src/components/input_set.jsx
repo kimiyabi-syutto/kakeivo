@@ -34,12 +34,10 @@ export const Scribe = () => {
   const [payWay, setPayWay] = useState([]);
   useEffect(() => {
     fetchPayWay();
-  }, []);
+    fetchKind();
+  });
 
   const [kind, setKind] = useState([]);
-  useEffect(() => {
-    fetchKind();
-  }, []);
   async function fetchPayWay() {
     const apiData = await client.graphql({ query: listPayWays });
     const payWayFromAPI = apiData.data.listPayWays.items;
@@ -49,7 +47,6 @@ export const Scribe = () => {
     const apiData = await client.graphql({ query: listKinds });
     const kindFromAPI = apiData.data.listKinds.items.concat();
     kindFromAPI.sort((a,b)=>{return new Date(a.createdAt) - new Date(b.createdAt)});
-    console.log(kindFromAPI);
     setKind(kindFromAPI);
   }
 
@@ -67,12 +64,11 @@ export const Scribe = () => {
       kind: kind[form.get("kind")].name,
       payWay: payWay[form.get("payWay")].name,
     };
-    console.log(data);
     if(Number.isNaN(data.buyDate.getTime()) ||
-      data.store == "" ||
-      data.sumPrice == "" ||
-      data.kind == "" ||
-      data.payWay == ""
+      data.store === "" ||
+      data.sumPrice === "" ||
+      data.kind === "" ||
+      data.payWay === ""
     ){
       // 失敗
       return;
@@ -84,14 +80,6 @@ export const Scribe = () => {
     });
     event.target.reset();
     setErrorText("");
-  }
-  async function deleteReceipt({ id }) {
-    const newReceipts = receipt.filter((receipt) => receipt.id !== id);
-    setReceipt(newReceipts);
-    await client.graphql({
-      query: deleteReceiptMutation,
-      variables: { input: { id } },
-    });
   }
 
   return (

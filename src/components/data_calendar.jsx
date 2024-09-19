@@ -42,6 +42,21 @@ export const CalendarPage = () => {
     });
     fetchReceipts();
   }
+  var baseDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  if(baseDate.getDate() <= 10){
+    baseDate.setMonth(baseDate.getMonth() - 1);
+    baseDate.setDate(11);
+  }
+  var baseNextDate = new Date(baseDate.getFullYear(), baseDate.getMonth() - 1, baseDate.getDate());
+  baseNextDate.setMonth(baseDate.getMonth() + 1);
+  baseNextDate.setDate(10);
+
+  var periodReceipts = receipts.filter((r)=>{
+    var recDate = new Date(parseInt(r.buyDate.substring(0, 4)), parseInt(r.buyDate.substring(5, 7))-1, parseInt(r.buyDate.substring(8, 10)));
+    return (baseDate <= recDate) && (recDate <= baseNextDate);
+  });
+  
+
   return (
     <div>
       <BackButton to={"/"} />
@@ -59,22 +74,27 @@ export const CalendarPage = () => {
       />
       <br/>
       <Paper sx={{width:"100%" }}>
-        {date.getFullYear()}年{date.getMonth()+1}月11日～{date.getFullYear()}年{date.getMonth() == 11 ? 1 : date.getMonth()+2}月10日
+        {baseDate.getFullYear()}年{baseDate.getMonth()+1}月11日～{baseNextDate.getFullYear()}年{baseNextDate.getMonth()+1}月10日
         <br/>
-        支出：XXX円
+        支出：{periodReceipts.filter((r)=>r.kind != "収入").reduce((sum, r)=>sum + r.sumPrice, 0)}円
         <br/>
-        　現金：ZZZ円
+        　現金：{periodReceipts.filter((r)=>r.payWay == "現金").reduce((sum, r)=>sum + r.sumPrice, 0)}円
         <br/>
-        　イオンクレジット(次月引落し)：ZZZ円
+        　イオンクレジット(次月引落し)：{periodReceipts.filter((r)=>r.payWay == "イオンクレジット").reduce((sum, r)=>sum + r.sumPrice, 0)}円
         <br/>
-        収入：YYY円
+        収入：{periodReceipts.filter((r)=>r.kind == "収入").reduce((sum, r)=>sum + r.sumPrice, 0)}円
         <br/>
       </Paper>
       <br/>
       <Paper sx={{width:"100%" }}>
         {date.getFullYear()}年{date.getMonth()+1}月{date.getDate()}日
         <View margin="3rem 0">
-          {receipts.map((receipt) => (
+          {receipts
+            .filter((r) =>
+              date.getFullYear() == parseInt(r.buyDate.substring(0, 4)) &&
+              (date.getMonth() + 1) == parseInt(r.buyDate.substring(5, 7)) &&
+              date.getDate() == parseInt(r.buyDate.substring(8, 10)))
+            .map((receipt) => (
             <Flex
               key={receipt.id || receipt.store}
               direction="row"

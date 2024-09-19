@@ -52,7 +52,9 @@ function App({ signOut }) {
         <BrowserRouter>
         <Routes>
           { link.map((v)=>{
-            return <Route path={v[0]} element={
+            return <Route
+            key={v[0]}
+             path={v[0]} element={
             <div className="App">
               <header className="App-header">
                 {v[2]}

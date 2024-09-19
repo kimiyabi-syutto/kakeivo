@@ -85,14 +85,17 @@ export const PriceCalendar = ({date, priceData, onChange}) => {
         <TableHead>
           <TableRow>
             { Array(7).fill(0).map((_,i)=>
-              <TableCell>{days[i]}</TableCell>
+              <TableCell
+              key={i}
+              >{days[i]}</TableCell>
             )}
           </TableRow>
         </TableHead>
         <TableBody>
           {
             Array(weekCount).fill(0).map((_,i)=>
-              <TableRow>
+              <TableRow
+                key={i}>
                 { Array(7).fill(0).map((_,j)=>
                   {
                     var v=(i*7+j-firstDay+11);
@@ -117,7 +120,6 @@ export const PriceCalendar = ({date, priceData, onChange}) => {
                     }
 
                     var p =isEmpty ? 0 : priceData.reduce((i, v)=>{
-                      console.log(v.buyDate.substring(8, 10) +"  \  "+ dispDate.day);
                       if(parseInt(v.buyDate.substring(0, 4)) == dispDate.year &&
                         parseInt(v.buyDate.substring(5, 7)) == dispDate.month &&
                         parseInt(v.buyDate.substring(8, 10)) == dispDate.day
@@ -128,6 +130,7 @@ export const PriceCalendar = ({date, priceData, onChange}) => {
                       }
                     }, 0);
                     return <TableCell
+                      key={i * 7 + j}
                       sx = {{p:0, m:0}}
                       align="center"
                       onClick={ ()=>{
