@@ -13,7 +13,7 @@ export const Setting = ({signOut}) => {
       <Routes>
         <Route path="/type" element={<SettingType />} />
         <Route path="/way" element={<SettingWay />} />
-        <Route path="/" element={<SettingTop func={signOut} />} />
+        <Route path="/" element={<SettingTop signOut={signOut} />} />
       </Routes>
     </div>
   );

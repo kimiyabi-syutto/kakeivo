@@ -43,7 +43,7 @@ function App({ signOut }) {
     ["/scribe/*", "", <Scribe />],
     ["/calendar/*", "", <CalendarPage />],
     ["/graph/*", "", <Graph />],
-    ["/setting/*", "", <Setting func={signOut} />],
+    ["/setting/*", "", <Setting signOut={signOut} />],
   ];
   return (
     <React.StrictMode>
