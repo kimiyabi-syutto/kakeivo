@@ -13,6 +13,7 @@ export const getReceipt = /* GraphQL */ `
       payWay
       createdAt
       updatedAt
+      owner
       __typename
     }
   }
@@ -34,6 +35,7 @@ export const listReceipts = /* GraphQL */ `
         payWay
         createdAt
         updatedAt
+        owner
         __typename
       }
       nextToken
@@ -48,6 +50,7 @@ export const getKind = /* GraphQL */ `
       name
       createdAt
       updatedAt
+      owner
       __typename
     }
   }
@@ -64,6 +67,7 @@ export const listKinds = /* GraphQL */ `
         name
         createdAt
         updatedAt
+        owner
         __typename
       }
       nextToken
@@ -79,6 +83,7 @@ export const getPayWay = /* GraphQL */ `
       type
       createdAt
       updatedAt
+      owner
       __typename
     }
   }
@@ -96,6 +101,7 @@ export const listPayWays = /* GraphQL */ `
         type
         createdAt
         updatedAt
+        owner
         __typename
       }
       nextToken

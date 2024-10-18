@@ -24,7 +24,9 @@ export const SettingType = () => {
   const client = generateClient();
 
   async function fetchKind() {
-    const apiData = await client.graphql({ query: listKinds });
+    const apiData = await client.graphql({
+      query: listKinds,
+    });
     const kindFromAPI = apiData.data.listKinds.items.concat();
     kindFromAPI.sort((a,b)=>a.createdAt-b.createdAt);
     setKind(kindFromAPI);

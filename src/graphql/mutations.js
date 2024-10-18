@@ -16,6 +16,7 @@ export const createReceipt = /* GraphQL */ `
       payWay
       createdAt
       updatedAt
+      owner
       __typename
     }
   }
@@ -35,6 +36,7 @@ export const updateReceipt = /* GraphQL */ `
       payWay
       createdAt
       updatedAt
+      owner
       __typename
     }
   }
@@ -54,6 +56,7 @@ export const deleteReceipt = /* GraphQL */ `
       payWay
       createdAt
       updatedAt
+      owner
       __typename
     }
   }
@@ -68,6 +71,7 @@ export const createKind = /* GraphQL */ `
       name
       createdAt
       updatedAt
+      owner
       __typename
     }
   }
@@ -82,6 +86,7 @@ export const updateKind = /* GraphQL */ `
       name
       createdAt
       updatedAt
+      owner
       __typename
     }
   }
@@ -96,6 +101,7 @@ export const deleteKind = /* GraphQL */ `
       name
       createdAt
       updatedAt
+      owner
       __typename
     }
   }
@@ -111,6 +117,7 @@ export const createPayWay = /* GraphQL */ `
       type
       createdAt
       updatedAt
+      owner
       __typename
     }
   }
@@ -126,6 +133,7 @@ export const updatePayWay = /* GraphQL */ `
       type
       createdAt
       updatedAt
+      owner
       __typename
     }
   }
@@ -141,6 +149,7 @@ export const deletePayWay = /* GraphQL */ `
       type
       createdAt
       updatedAt
+      owner
       __typename
     }
   }
