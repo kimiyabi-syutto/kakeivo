@@ -56,11 +56,13 @@ export const Scribe = () => {
     setErrorText("入力が足りていません");
     event.preventDefault();
     const form = new FormData(event.target);
+    var buyDate = new Date(form.get("buyDate"));
+    buyDate.setHours(buyDate.getHours() + 9);
     const data = {
       goods: form.get("goods"),
       store: form.get("storeName"),
       sumPrice: form.get("sumPrice"),
-      buyDate: new Date(form.get("buyDate")),
+      buyDate: buyDate,
       kind: kind[form.get("kind")].name,
       payWay: payWay[form.get("payWay")].name,
     };
@@ -90,7 +92,7 @@ export const Scribe = () => {
   <Box sx={{p:1}}>
     <div>購入日付
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DatePicker name={"buyDate"} format="YYYY/MM/DD" />
+      <DatePicker name={"buyDate"} format="YYYY/MM/DD" slotProps={{ calendarHeader: { format: 'YYYY年MM月' } }} />
       </LocalizationProvider>
     </div>
   </Box>
